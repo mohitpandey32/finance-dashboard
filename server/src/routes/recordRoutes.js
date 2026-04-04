@@ -4,7 +4,6 @@ const router = express.Router();
 const protect = require("../middlewares/authMiddleware");
 const authorize = require("../middlewares/roleMiddleware");
 const { validateRecord } = require("../validators/recordValidator");
-
 const {
   createRecord,
   getRecords,
@@ -13,16 +12,15 @@ const {
   deleteRecord,
 } = require("../controllers/recordController");
 
-router.get("/:id", protect, authorize("analyst", "admin"), getRecordById);
+router.use(protect);
 
-// Admin only
-router.post("/", protect, authorize("admin"), validateRecord,  createRecord);
+// specific routes first
+router.get("/",    authorize("analyst", "admin"), getRecords);
+router.post("/",   authorize("admin"), validateRecord, createRecord);
 
-// Analyst + Admin
-router.get("/", protect, authorize("analyst", "admin"), getRecords);
-
-// Admin only
-router.patch("/:id", protect, authorize("admin"), updateRecord);
-router.delete("/:id", protect, authorize("admin"), deleteRecord);
+// parameterized routes after
+router.get("/:id",    authorize("analyst", "admin"), getRecordById);
+router.patch("/:id",  authorize("admin"), updateRecord);
+router.delete("/:id", authorize("admin"), deleteRecord);
 
 module.exports = router;
