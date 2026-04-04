@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate, Navigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { LogIn, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import './Login.css';
@@ -133,7 +133,8 @@ export default function Login() {
         </div>
 
         <p className="login-footer">
-          Secure access with role-based permissions
+          Don't have an account?{' '}
+          <Link to="/register">Sign up</Link>
         </p>
       </div>
     </div>

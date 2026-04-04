@@ -1,16 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { dashboardService } from '../services/dashboardService';
-import { formatCurrency } from '../utils/formatCurrency';
-import { getMonthName } from '../utils/formatCurrency';
+import { formatCurrency, getMonthName } from '../utils/formatCurrency';
 import StatCard from '../components/StatCard';
 import Navbar from '../components/Navbar';
 import {
   TrendingUp,
   TrendingDown,
   Wallet,
-  ShieldAlert,
   BarChart3,
+  RefreshCw,
 } from 'lucide-react';
 import {
   AreaChart,
@@ -42,12 +41,8 @@ export default function Dashboard() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (role === 'viewer') {
-      setLoading(false);
-      return;
-    }
     fetchDashboardData();
-  }, [role]);
+  }, []);
 
   const fetchDashboardData = async () => {
     setLoading(true);
@@ -105,26 +100,6 @@ export default function Dashboard() {
     );
   };
 
-  // Viewer restricted view
-  if (role === 'viewer') {
-    return (
-      <div className="page-layout">
-        <Navbar />
-        <div className="page-content">
-          <div className="dashboard-restricted">
-            <ShieldAlert size={64} />
-            <h2>Access Restricted</h2>
-            <p>
-              Your current role (<strong>{role}</strong>) does not have access to
-              dashboard analytics. Contact an administrator to upgrade your
-              permissions.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="page-layout">
       <Navbar />
@@ -136,7 +111,7 @@ export default function Dashboard() {
             <p className="page-subtitle">Your financial overview at a glance</p>
           </div>
           <button className="btn btn-secondary" onClick={fetchDashboardData} disabled={loading}>
-            <BarChart3 size={16} />
+            <RefreshCw size={16} />
             Refresh
           </button>
         </div>

@@ -1,12 +1,10 @@
 const Record = require("../models/Record");
-const { Types } = require("mongoose");
 const asyncHandler = require("../utils/asyncHandler");
 const AppError = require("../utils/AppError");
 
-
-async function fetchBalanceSummary(userId) {
+// no userId param — company-wide aggregation
+async function fetchBalanceSummary() {
   const result = await Record.aggregate([
-    { $match: { userId: new Types.ObjectId(userId) } },
     { $group: { _id: "$type", total: { $sum: "$amount" } } },
   ]);
 
@@ -16,28 +14,23 @@ async function fetchBalanceSummary(userId) {
 }
 
 exports.getBalance = asyncHandler(async (req, res) => {
-  const summary = await fetchBalanceSummary(req.user._id);
-  res.json({
-  success: true,
-  data: summary,
+  const summary = await fetchBalanceSummary();
+  res.json({ success: true, data: summary });
 });
-});
-
 
 exports.getTotalIncome = asyncHandler(async (req, res) => {
-  const { income } = await fetchBalanceSummary(req.user._id);
-  res.json({ totalIncome: income });
+  const { income } = await fetchBalanceSummary();
+  res.json({ success: true, data: { totalIncome: income } });
 });
 
 exports.getTotalExpense = asyncHandler(async (req, res) => {
-  const { expense } = await fetchBalanceSummary(req.user._id);
-  res.json({ totalExpense: expense });
+  const { expense } = await fetchBalanceSummary();
+  res.json({ success: true, data: { totalExpense: expense } });
 });
-
 
 exports.getCategoryStats = asyncHandler(async (req, res) => {
   const result = await Record.aggregate([
-    { $match: { userId: new Types.ObjectId(req.user._id) } },
+    // fixed: removed userId filter — company-wide
     {
       $group: {
         _id: { category: "$category", type: "$type" },
@@ -45,19 +38,13 @@ exports.getCategoryStats = asyncHandler(async (req, res) => {
         count: { $sum: 1 },
       },
     },
-   
     { $sort: { "_id.type": 1, total: -1 } },
   ]);
 
-  res.json({
-  success: true,
-  data: result,
+  res.json({ success: true, data: result });
 });
-});
-
 
 exports.getMonthlyTrends = asyncHandler(async (req, res) => {
-
   const raw = parseInt(req.query.months, 10);
   if (req.query.months !== undefined && (isNaN(raw) || raw <= 0)) {
     throw new AppError("months must be a positive integer", 400, "INVALID_PARAM");
@@ -68,12 +55,8 @@ exports.getMonthlyTrends = asyncHandler(async (req, res) => {
   since.setMonth(since.getMonth() - months);
 
   const result = await Record.aggregate([
-    {
-      $match: {
-        userId: new Types.ObjectId(req.user._id),
-        date: { $gte: since },
-      },
-    },
+    // fixed: removed userId filter — company-wide, date window kept
+    { $match: { date: { $gte: since } } },
     {
       $group: {
         _id: {
@@ -88,8 +71,5 @@ exports.getMonthlyTrends = asyncHandler(async (req, res) => {
     { $sort: { "_id.year": 1, "_id.month": 1 } },
   ]);
 
-  res.json({
-  success: true,
-  data: result,
-});
+  res.json({ success: true, data: result });
 });

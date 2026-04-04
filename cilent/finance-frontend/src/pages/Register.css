@@ -1,0 +1,271 @@
+/* ═══════════════════════════════════════════════════════════════
+   Register Page — mirrors Login.css structure
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Re-use login-page layout via shared class names (login-page, etc.) */
+
+/* ---- Additional signup-specific styles ---- */
+
+.register-card {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: register-card-in 0.5s ease forwards;
+}
+
+@keyframes register-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.register-card-title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.register-card-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin-bottom: var(--space-lg);
+}
+
+/* Form */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Input wrapper — same pattern as login */
+.register-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.register-input-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-muted);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.register-input {
+  padding-left: 42px !important;
+}
+
+.register-password-toggle {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  transition: color var(--transition-fast);
+}
+
+.register-password-toggle:hover {
+  color: var(--text-primary);
+}
+
+/* ---- Password strength meter ---- */
+.password-strength {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: -4px;
+}
+
+.password-strength-bars {
+  display: flex;
+  gap: 4px;
+  height: 4px;
+}
+
+.password-strength-bar {
+  flex: 1;
+  border-radius: 2px;
+  background: var(--border);
+  transition: background var(--transition-fast);
+}
+
+.password-strength-bar.active.strength-weak {
+  background: var(--expense);
+}
+
+.password-strength-bar.active.strength-fair {
+  background: var(--warning);
+}
+
+.password-strength-bar.active.strength-good {
+  background: var(--info);
+}
+
+.password-strength-bar.active.strength-strong {
+  background: var(--income);
+}
+
+.password-strength-label {
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}
+
+.password-strength-label.strength-weak {
+  color: var(--expense);
+}
+
+.password-strength-label.strength-fair {
+  color: var(--warning);
+}
+
+.password-strength-label.strength-good {
+  color: var(--info);
+}
+
+.password-strength-label.strength-strong {
+  color: var(--income);
+}
+
+/* ---- Error ---- */
+.register-error {
+  background: var(--expense-bg);
+  border: 1px solid rgba(244, 63, 94, 0.2);
+  color: var(--expense);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  animation: shake 0.35s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-6px); }
+  40%      { transform: translateX(6px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
+}
+
+/* ---- Submit ---- */
+.register-submit {
+  width: 100%;
+  padding: 12px;
+  font-size: var(--font-size-base);
+  margin-top: var(--space-sm);
+}
+
+/* ---- Footer link ---- */
+.register-footer {
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin-top: var(--space-lg);
+}
+
+.register-footer a,
+.login-footer a {
+  color: var(--accent-primary-hover);
+  font-weight: 600;
+  transition: color var(--transition-fast);
+}
+
+.register-footer a:hover,
+.login-footer a:hover {
+  color: var(--accent-primary);
+  text-decoration: underline;
+}
+
+/* ---- Success overlay ---- */
+.register-success-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fade-in 0.3s ease;
+}
+
+.register-success-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl) var(--space-xl);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: var(--shadow-lg);
+  animation: modal-in 0.35s ease;
+}
+
+.register-success-icon {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-lg);
+  border-radius: 50%;
+  background: var(--income-bg);
+  color: var(--income);
+  animation: pop-in 0.5s ease;
+}
+
+@keyframes pop-in {
+  0%   { transform: scale(0); opacity: 0; }
+  60%  { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.register-success-title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  margin-bottom: var(--space-sm);
+}
+
+.register-success-text {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin-bottom: var(--space-lg);
+  line-height: 1.6;
+}
+
+.register-success-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: var(--font-size-base);
+}
+
+/* ---- Name row (two columns on wider screens) ---- */
+.register-name-row {
+  display: flex;
+  gap: var(--space-md);
+}
+
+@media (max-width: 480px) {
+  .register-name-row {
+    flex-direction: column;
+  }
+}
