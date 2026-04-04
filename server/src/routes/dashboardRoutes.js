@@ -13,10 +13,10 @@ const {
 } = require("../controllers/dashboardController");
 
 // Analyst + Admin
-router.get("/income", protect, authorize("analyst", "admin"), getTotalIncome);
-router.get("/expense", protect, authorize("analyst", "admin"), getTotalExpense);
-router.get("/balance", protect, authorize("analyst", "admin"), getBalance);
-router.get("/category", protect, authorize("analyst", "admin"), getCategoryStats);
-router.get("/trends", protect, authorize("analyst", "admin"), getMonthlyTrends);
+router.get("/income", protect, authorize("viewer","analyst", "admin"), getTotalIncome);
+router.get("/expense", protect, authorize("viewer","analyst", "admin"), getTotalExpense);
+router.get("/balance", protect, authorize("viewer","analyst", "admin"), getBalance);
+router.get("/category", protect, authorize("viewer","analyst", "admin"), getCategoryStats);
+router.get("/trends", protect, authorize("viewer","analyst", "admin"), getMonthlyTrends);
 
 module.exports = router;

@@ -1,0 +1,60 @@
+.record-form-modal {
+  max-width: 480px;
+}
+
+.record-form-title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  margin-bottom: var(--space-lg);
+}
+
+.record-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.record-form-type-toggle {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.type-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-fast);
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.type-btn:hover {
+  border-color: var(--border-hover);
+}
+
+.type-btn-income.active {
+  background: var(--income-bg);
+  border-color: var(--income);
+  color: var(--income);
+}
+
+.type-btn-expense.active {
+  background: var(--expense-bg);
+  border-color: var(--expense);
+  color: var(--expense);
+}
+
+.record-form-actions {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+  margin-top: var(--space-sm);
+}
+
+.record-form-actions .btn {
+  min-width: 120px;
+}
