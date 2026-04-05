@@ -4,7 +4,7 @@ const asyncHandler = require("../utils/asyncHandler");
 
 const MUTABLE_FIELDS = ["amount", "type", "category", "date", "note"];
 
-// ── Create record (Admin only) 
+//  Create record (Admin only) 
 exports.createRecord = asyncHandler(async (req, res) => {
   const { amount, type, category, date, note } = req.body;
 
@@ -20,7 +20,7 @@ exports.createRecord = asyncHandler(async (req, res) => {
   res.status(201).json({ success: true, data: record });
 });
 
-// ── Get all records (Analyst/Admin)
+//  Get all records (Analyst/Admin)
 exports.getRecords = asyncHandler(async (req, res) => {
   const { type, category, startDate, endDate } = req.query;
 
@@ -47,7 +47,7 @@ exports.getRecords = asyncHandler(async (req, res) => {
   res.json({ success: true, count: records.length, data: records });
 });
 
-// ── Get single record (Analyst/Admin)
+//  Get single record (Analyst/Admin)
 exports.getRecordById = asyncHandler(async (req, res) => {
   // no userId scope — company-wide, consistent with getRecords
   const record = await Record.findById(req.params.id);
@@ -57,7 +57,7 @@ exports.getRecordById = asyncHandler(async (req, res) => {
   res.json({ success: true, data: record }); // fixed: consistent response shape
 });
 
-// ── Update record (Admin only) 
+//  Update record (Admin only) 
 exports.updateRecord = asyncHandler(async (req, res) => {
   const record = await Record.findById(req.params.id);
 
@@ -71,7 +71,7 @@ exports.updateRecord = asyncHandler(async (req, res) => {
   res.json({ success: true, data: record });
 });
 
-// ── Delete record (Admin only) 
+//  Delete record (Admin only) 
 exports.deleteRecord = asyncHandler(async (req, res) => {
   const record = await Record.findById(req.params.id);
 

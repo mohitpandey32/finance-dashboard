@@ -55,7 +55,7 @@ exports.getMonthlyTrends = asyncHandler(async (req, res) => {
   since.setMonth(since.getMonth() - months);
 
   const result = await Record.aggregate([
-    // fixed: removed userId filter — company-wide, date window kept
+
     { $match: { date: { $gte: since } } },
     {
       $group: {

@@ -1,8 +1,14 @@
 import { useState } from 'react';
 import { useNavigate, Navigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LogIn, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { LogIn, Mail, Lock, Eye, EyeOff, Zap } from 'lucide-react';
 import './Login.css';
+
+const DEMO_ACCOUNTS = [
+  { label: 'Viewer', email: 'aditya876hooda@gmail.com', password: 'Aditya@5566', color: 'demo-chip-viewer' },
+  { label: 'Analyst', email: 'analyst998@gmail.com', password: 'Mohit@5566', color: 'demo-chip-analyst' },
+  { label: 'Admin', email: 'pandeymohit998@gmail.com', password: 'Mohit@5566', color: 'demo-chip-admin' },
+];
 
 export default function Login() {
   const { login, isAuthenticated } = useAuth();
@@ -130,6 +136,27 @@ export default function Login() {
               )}
             </button>
           </form>
+
+          {/* Demo Accounts */}
+          <div className="demo-accounts">
+            <div className="demo-accounts-label">
+              <Zap size={13} />
+              <span>Try a demo account</span>
+            </div>
+            <div className="demo-chips">
+              {DEMO_ACCOUNTS.map((acc) => (
+                <button
+                  key={acc.label}
+                  type="button"
+                  className={`demo-chip ${acc.color}`}
+                  onClick={() => { setEmail(acc.email); setPassword(acc.password); setError(''); }}
+                >
+                  <span className="demo-chip-dot" />
+                  {acc.label}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         <p className="login-footer">
